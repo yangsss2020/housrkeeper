@@ -1,0 +1,15 @@
+/* custom自定义部分 */
+html, body {
+  width: 100%;
+  height: 100%;
+  // overflow: hidden;
+}
+
+/*显示省略号*/
+.ellipsis{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+$bgColor:#02a774;
