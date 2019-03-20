@@ -6,10 +6,13 @@ html, body {
 }
 
 /*显示省略号*/
-.ellipsis{
+.ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-$bgColor:#02a774;
+$color-red-1: #F83478;
+$color-red-2: #D81E06;
+
+$bgcolor-1: #E2FFB5;

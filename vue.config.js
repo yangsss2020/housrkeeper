@@ -7,6 +7,7 @@ const path = require('path')
 function resolve (dir) {
   return path.join(__dirname, dir)
 }
+
 module.exports = {
   css: {
     loaderOptions: {
@@ -20,8 +21,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://localhost:4000', // 代理目标的基础路径
-        // ws: true,
+        target: 'http://localhost:3000/api', // 代理目标的基础路径
+        ws: true,
         changeOrigin: true,
         pathRewrite: { // 重写路径: 去掉路径中开头的'/api'
           '^/api': ''
@@ -31,26 +32,6 @@ module.exports = {
         target: '<other_url>'
       }
     }
-    // before (app) {
-    //   app.get('apis/info', function (req, res) {
-    //     res.json({
-    //       code: 0,
-    //       data: info
-    //     })
-    //   })
-    //   app.get('apis/goods', function (req, res) {
-    //     res.json({
-    //       code: 0,
-    //       data: goods
-    //     })
-    //   })
-    //   app.get('apis/ratings', function (req, res) {
-    //     res.json({
-    //       code: 0,
-    //       data: ratings
-    //     })
-    //   })
-    // }
   },
   pluginOptions: {
     'cube-ui': {
