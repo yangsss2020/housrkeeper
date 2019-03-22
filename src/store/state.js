@@ -1,5 +1,6 @@
 // 状态对象
 export default {
+  userinfo: {}, //存放用户信息
   swiper: [], // 首页轮播图
   category: [], // category分类
   recommend: [], //首页推荐

@@ -11,10 +11,10 @@
           <p class="text">收藏</p>
         </div>
       </div>
-      <div class="cart" @click="toggleShowCart">
+      <div class="cart" @click="toggleShowCart(isCar)" :class="{off:!showBtn}">
         加入购物车
       </div>
-      <div class="cell" @click="toggleShowCart">
+      <div class="cell" @click="toggleShowCart(isBuy)" :class="{off:!showBuy}">
         立即购买
       </div>
     </div>
@@ -24,7 +24,7 @@
           <img :src="BASE_URL+currentPorduct.bannerlist[0]" alt="" class="img_content">
         </div>
         <div class="info">
-          <div class="preice"><span>￥</span>{{currentPorduct.pricea}}</div>
+          <div class="preice"><span>￥</span>{{price}}</div>
           <div class="inventory">库存298件</div>
           <div class="desc">选择规格,尺寸分类</div>
         </div>
@@ -32,17 +32,18 @@
       <div class="size">
         <div class="title">规格</div>
         <ul class="size_list">
-          <li class="list_item on">1L</li>
-          <li class="list_item">1L</li>
-          <li class="list_item">1L</li>
+          <li class="list_item" :class="{on:key===size}" v-for="(item,key) in currentPorduct.price" :key="key"
+              @click="checkSize(key)">
+            {{key}}
+          </li>
         </ul>
       </div>
       <div class="foot">
         <div class="left">购买数量</div>
         <div class="right">
-          <div class="decrement item">-</div>
-          <div class="count item">1</div>
-          <div class="increment item">+</div>
+          <div class="decrement item" @click="changCount(!addCount)">-</div>
+          <div class="count item">{{count}}</div>
+          <div class="increment item" @click="changCount(addCount)">+</div>
         </div>
       </div>
     </div>
@@ -61,13 +62,80 @@ export default {
   data () {
     return {
       BASE_URL: 'http://127.0.0.1:3000/',
-      showList: false,
-      flag: false
+      showList: false, //是否显示购物车列表
+      showBtn: true, //加入购物车是否可以点击
+      showBuy: true, //购买是否可以点击
+      isCar: 'car', //true为加入购物车,flase为购买
+      isBuy: 'bau', //购买
+      isgogo: true,
+      flag: false, //条件渲染商品列表
+      addCount: true, //增加商品数量
+      count: 0, //存放商品数量
+      size: '' //存放商品的规格
     }
   },
   methods: {
-    toggleShowCart () {
-      this.showList = !this.showList
+    toggleShowCart (flag) {
+      if (flag === this.isCar) {
+        if (!this.showList) {
+          this.showList = true
+          this.showBtn = false
+          this.showBuy = false
+          this.isgogo = false
+        }
+        if (this.showList && this.showBtn) {
+          this.count = 0
+          this.showList = false
+          this.showBuy = true
+          this.isgogo = true
+          this.size = ''
+          this.showToastType()
+          //执行加入购物车ajax请求
+        }
+      } else {
+        if (!this.showList) {
+          this.showList = true
+          this.showBuy = false
+          this.showBtn = false
+          this.isgogo = true
+        }
+        if (this.showList && this.showBuy) {
+          this.count = 0
+          this.showBuy = true
+          this.showBtn = true
+          this.showList = false
+          this.isgogo = false
+          this.size = ''
+          //跳转到购买页面
+        }
+      }
+    },
+    checkSize (key) {
+      if (!this.size || key !== this.size) {
+        this.size = key
+      } else {
+        this.size = ''
+      }
+      this.showBtn = !!(this.count !== 0 && this.size && !this.isgogo)
+      this.showBuy = !!(this.count !== 0 && this.size && this.isgogo)
+    },
+    changCount (flag) {
+      if (flag) {
+        this.count += 1
+      } else {
+        if (this.count > 0) {
+          this.count -= 1
+        }
+      }
+      this.showBtn = !!(this.count !== 0 && this.size && !this.isgogo)
+      this.showBuy = !!(this.count !== 0 && this.size && this.isgogo)
+    },
+    showToastType () {
+      const toast = this.$createToast({
+        txt: '添加成功',
+        type: 'correct'
+      })
+      toast.show()
     }
   },
   watch: {
@@ -76,14 +144,23 @@ export default {
         this.flag = true
       }
     }
+  },
+  computed: {
+    price () {
+      const { currentPorduct, size } = this
+      let price = 0
+      const priceArr = []
+      if (!size) {
+        for (let key in currentPorduct.price) {
+          priceArr.push(currentPorduct.price[key])
+        }
+        price = priceArr[0] + '-' + priceArr[priceArr.length - 1]
+      } else {
+        price = currentPorduct.price[size]
+      }
+      return price
+    }
   }
-  // computed: {
-  //   banner () {
-  //     console.log(this.currentPorduct)
-  //     // const banner = this.currentPorduct.bannerlist[0]
-  //     // return banner
-  //   }
-  // }
 }
 </script>
 
@@ -135,10 +212,22 @@ export default {
         text-align: center;
       }
 
+      .cart {
+        &.off {
+          background-color: #666;
+          color: #eee;
+        }
+      }
+
       .cell {
         background-color: #FE275C;
         color: #FEFEFE;
         font-size: 12px;
+
+        &.off {
+          background-color: #666;
+          color: #eee;
+        }
       }
     }
 
@@ -240,10 +329,18 @@ export default {
 
           .item {
             float: left;
-            padding: 4px 10px;
+            /*padding: 4px 10px;*/
+            width: 26px;
+            height: 20px;
             background-color: #eee;
             color: #666;
+            line-height: 20px;
+            text-align: center;
             margin-left: 2px;
+
+            &.count {
+              width: 30px;
+            }
           }
         }
       }

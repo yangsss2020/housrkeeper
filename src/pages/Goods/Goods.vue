@@ -13,7 +13,7 @@
             <swiper :options="swiperOption" :not-next-tick="notNextTick" ref="mySwiper" v-if="currentPorduct">
               <!-- slides -->
               <swiper-slide v-for="(item,index) in currentPorduct.bannerlist" :key="index">
-                <div class="img_item">
+                <div class="img_item" @click="showCustomImagePreview(index)">
                   <img
                     class="img_content"
                     :src="BASE_URL+item"
@@ -82,7 +82,7 @@ export default {
       },
       toggle: true, //切换bar true时商品,false详情
       goods: 'goods',
-      detail: 'detail'
+      detail: 'detail',
     }
   },
   methods: {
@@ -94,6 +94,14 @@ export default {
         this.toggle = false
         this.scrollGoods.scrollToElement(this.$refs.detail, 300)
       }
+    },
+    showCustomImagePreview (value) {
+      this.$createImagePreview({
+        imgs: this.galleryImg,
+        initialIndex: value,
+        loop: false,
+        speed: 300
+      }).show()
     }
   },
   computed: {
@@ -105,6 +113,16 @@ export default {
         return item.id === id
       })
       return current
+    },
+    galleryImg () {
+      const imgList = this.currentPorduct.bannerlist
+      const imgArr = []
+      let items = ''
+      imgList.forEach(item => {
+        items = this.BASE_URL + item
+        imgArr.push(items)
+      })
+      return imgArr
     }
   },
   mounted () {
@@ -113,27 +131,31 @@ export default {
   watch: {
     currentPorduct: function (value) {
       this.$nextTick(() => {
-        this.scrollGoods = new BScroll('.wrapper')
+        this.scrollGoods = new BScroll('.wrapper', {
+          click: true
+        })
       })
     }
   }
 }
 </script>
 <style lang="scss">
-  .swiper-container {
-    width: 100%;
-    height: 280px;
-  }
+  .Goods {
+    .swiper-container {
+      width: 100%;
+      height: 280px;
+    }
 
-  .swiper-pagination {
-    .swiper-pagination-bullet {
-      background: #fff;
-      opacity: 1;
+    .swiper-pagination {
+      .swiper-pagination-bullet {
+        background: #fff;
+        opacity: 1;
 
-      &.swiper-pagination-bullet-active {
-        background: #FE275C;
-        width: 14px;
-        border-radius: 4px;
+        &.swiper-pagination-bullet-active {
+          background: #FE275C;
+          width: 14px;
+          border-radius: 4px;
+        }
       }
     }
   }

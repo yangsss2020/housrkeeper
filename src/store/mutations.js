@@ -5,7 +5,9 @@ import {
   RECEIVE_RECOMMEND,
   RECEIVE_AREA,
   RECEIVE_ENTERPRISE,
-  RECEIVE_PRODUCT
+  RECEIVE_PRODUCT,
+  RECEIVE_USERINFO,
+  RET_USERINFO
 } from './mutations-type'
 // import Vue from 'vue'
 
@@ -27,5 +29,11 @@ export default {
   },
   [RECEIVE_PRODUCT] (state, { product }) {
     state.product = product
+  },
+  [RECEIVE_USERINFO] (state, { userinfo }) {
+    state.userinfo = userinfo
+  },
+  [RET_USERINFO] (state) {
+    state.userinfo = {}
   }
 }

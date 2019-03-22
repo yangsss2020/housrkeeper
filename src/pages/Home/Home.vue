@@ -57,18 +57,19 @@ export default {
 }
 </script>
 <style lang="scss">
-  .swiper-container {
-    width: 100%;
-    height: 185px;
-  }
+  .home {
+    .swiper-container {
+      width: 100%;
+      height: 185px;
+    }
+    .swiper-pagination {
+      .swiper-pagination-bullet {
+        background: #fff;
+        opacity: 1;
 
-  .swiper-pagination {
-    .swiper-pagination-bullet {
-      background: #fff;
-      opacity: 1;
-
-      &.swiper-pagination-bullet-active {
-        background: #FE275C;
+        &.swiper-pagination-bullet-active {
+          background: #FE275C;
+        }
       }
     }
   }

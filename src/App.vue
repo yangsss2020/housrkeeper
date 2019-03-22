@@ -11,9 +11,13 @@
   }
 </style>
 <script>
+// import {map} from 'vuex'
 import Tabbar from './components/Tabbar/Tabbar'
 
 export default {
-  components: { Tabbar }
+  components: { Tabbar },
+  mounted () {
+    this.$store.dispatch('reqInfo')
+  }
 }
 </script>

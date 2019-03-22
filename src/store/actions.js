@@ -5,7 +5,9 @@ import {
   RECEIVE_RECOMMEND,
   RECEIVE_AREA,
   RECEIVE_ENTERPRISE,
-  RECEIVE_PRODUCT
+  RECEIVE_PRODUCT,
+  RECEIVE_USERINFO,
+  RET_USERINFO
 } from './mutations-type'
 import {
   reqSwiper,
@@ -13,7 +15,9 @@ import {
   reqRecommend,
   reqArea,
   reqEnterprise,
-  reqProduct
+  reqProduct,
+  reqInfo,
+  reqLogout
 } from '../api/index'
 
 export default {
@@ -57,6 +61,19 @@ export default {
     if (reslut.code === 0) {
       const product = reslut.data
       commit(RECEIVE_PRODUCT, { product })
+    }
+  },
+  async reqInfo ({ commit }) {
+    const result = await reqInfo()
+    if (result.code === 0) {
+      const userinfo = result.data
+      commit(RECEIVE_USERINFO, { userinfo })
+    }
+  },
+  async reqLogout ({ commit }) {
+    const result = await reqLogout()
+    if (result.code === 0) {
+      commit(RET_USERINFO)
     }
   }
 }
