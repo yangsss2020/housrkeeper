@@ -13,39 +13,39 @@
       </div>
       <div class="nav">
         <div class="nav_content oreder">
-          <div class="head">
+          <div class="head" @click="$router.push('/order')">
             <div class="left">我的订单</div>
             <div class="right">查看全部订单></div>
           </div>
           <div class="content">
             <ul class="oreder_list">
-              <li class="list_item">
-                <div class="imgico">
-                  <div class="number">1</div>
+              <li class="list_item" @click="$router.push('/order/orderpay')">
+                <div class="imgico" >
+                  <div class="number" v-if="order.length">{{order.length}}</div>
                 </div>
                 <span class="title">待付款</span>
               </li>
-              <li class="list_item">
+              <li class="list_item" @click="$router.push('/order/orderdelivered')">
                 <div class="imgico">
-                  <div class="number">1</div>
+                  <div class="number" v-if="flag">1</div>
                 </div>
                 <span class="title">待发货</span>
               </li>
-              <li class="list_item">
+              <li class="list_item" @click="$router.push('/order/orderpending')">
                 <div class="imgico">
-                  <div class="number">1</div>
+                  <div class="number" v-if="flag">1</div>
                 </div>
                 <span class="title">待收货</span>
               </li>
-              <li class="list_item">
+              <li class="list_item" @click="$router.push('/order')">
                 <div class="imgico">
-                  <div class="number">1</div>
+                  <div class="number" v-if="flag">1</div>
                 </div>
                 <span class="title">待评价</span>
               </li>
-              <li class="list_item">
+              <li class="list_item" @click="$router.push('/order')">
                 <div class="imgico">
-                  <div class="number">1</div>
+                  <div class="number" v-if="flag">1</div>
                 </div>
                 <span class="title">售后/退款</span>
               </li>
@@ -59,7 +59,7 @@
           <div class="content">
             <ul class="tool_list">
               <li class="list_item">
-                <div class="imgico"></div>
+                <div class="imgico" @click="$router.push('/address')"></div>
                 <span class="title">收货地址</span>
               </li>
               <li class="list_item">
@@ -89,14 +89,25 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'Person',
+  data () {
+    return {
+      flag: false
+    }
+  },
   computed: {
-    ...mapState(['userinfo']),
+    ...mapState(['userinfo', 'order']),
     singinPath () {
       if (this.userinfo.name) {
         return '/personmanag'
       } else {
         return '/singin'
       }
+    }
+  },
+  mounted () {
+    console.log(this.userinfo)
+    if (this.userinfo) {
+      this.$store.dispatch('getorder')
     }
   },
   components: { Topbar }

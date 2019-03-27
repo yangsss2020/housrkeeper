@@ -7,7 +7,8 @@ import './common/styles/iconfont.css'
 import './lib/rem'
 import 'swiper/dist/css/swiper.css' // 轮播图插件
 import VueAwesomeSwiper from 'vue-awesome-swiper'
-
+// import animate from 'animate.css'
+// Vue.use(animate)
 Vue.use(VueAwesomeSwiper)
 
 Vue.config.productionTip = false

@@ -9,47 +9,47 @@ import {
   // basic
   Button,
   Loading,
-  Tip,
-  Toolbar,
-  TabBar,
-  TabPanels,
+  // Tip,
+  // Toolbar,
+  // TabBar,
+  // TabPanels,
   // form
-  Checkbox,
-  CheckboxGroup,
-  Radio,
-  RadioGroup,
+  // Checkbox,
+  // CheckboxGroup,
+  // Radio,
+  // RadioGroup,
   Input,
   Textarea,
-  Select,
-  Switch,
-  Rate,
-  Validator,
-  Upload,
+  // Select,
+  // Switch,
+  // Rate,
+  // Validator,
+  // Upload,
   Form,
   // popup
-  Popup,
+  // Popup,
   Toast,
-  Picker,
-  CascadePicker,
-  DatePicker,
-  TimePicker,
-  SegmentPicker,
+  // Picker,
+  // CascadePicker,
+  // DatePicker,
+  // TimePicker,
+  // SegmentPicker,
   Dialog,
-  ActionSheet,
-  Drawer,
+  // ActionSheet,
+  // Drawer,
   ImagePreview,
   // scroll
   Scroll,
-  Slide,
-  IndexList,
-  Swipe,
-  Sticky,
+  // Slide,
+  // IndexList,
+  // Swipe,
+  // Sticky,
   ScrollNav,
-  ScrollNavBar
+  // ScrollNavBar
 } from 'cube-ui'
 
 Vue.use(Button)
-// Vue.use(Loading)
+Vue.use(Loading)
 // Vue.use(Tip)
 // Vue.use(Toolbar)
 // Vue.use(TabBar)
@@ -59,13 +59,13 @@ Vue.use(Button)
 // Vue.use(Radio)
 // Vue.use(RadioGroup)
 Vue.use(Input)
-// Vue.use(Textarea)
+Vue.use(Textarea)
 // Vue.use(Select)
 // Vue.use(Switch)
 // Vue.use(Rate)
 // Vue.use(Validator)
 // Vue.use(Upload)
-// Vue.use(Form)
+Vue.use(Form)
 // Vue.use(Popup)
 Vue.use(Toast)
 // Vue.use(Picker)

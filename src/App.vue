@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!--<keep-alive :include="test">-->
+      <!--<router-view/>-->
+    <!--</keep-alive>-->
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <Tabbar v-if="$route.meta.showTabbar"/>
   </div>
 </template>
@@ -16,8 +22,17 @@ import Tabbar from './components/Tabbar/Tabbar'
 
 export default {
   components: { Tabbar },
-  mounted () {
-    this.$store.dispatch('reqInfo')
+  data () {
+    return {
+      test: 'area'
+    }
+  },
+  created () {
+    this.$store.dispatch('reqInfo').then(() => {
+      this.$store.dispatch('getorder')
+    })
+    this.$store.dispatch('getShopcar')
+    // this.$store.dispatch('getaddress')
   }
 }
 </script>

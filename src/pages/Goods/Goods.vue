@@ -82,7 +82,7 @@ export default {
       },
       toggle: true, //切换bar true时商品,false详情
       goods: 'goods',
-      detail: 'detail',
+      detail: 'detail'
     }
   },
   methods: {
@@ -105,14 +105,26 @@ export default {
     }
   },
   computed: {
-    ...mapState(['product']),
+    ...mapState(['product', 'enterprise']),
     currentPorduct () {
-      const product = this.product
-      const id = parseInt(this.$route.params.id)
-      const current = product.find((item) => {
-        return item.id === id
-      })
-      return current
+      if (this.$route.params.id) {
+        let idd = this.$route.params.id
+        let id
+        let list = []
+        if (idd[0] === 'a') {
+          id = parseInt(idd[1])
+          list = this.enterprise
+        } else {
+          id = parseInt(idd)
+          list = this.product
+        }
+        const current = list.find((item) => {
+          return item.id === id
+        })
+        return current
+      } else {
+        return false
+      }
     },
     galleryImg () {
       const imgList = this.currentPorduct.bannerlist
@@ -127,6 +139,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('reqProduct')
+    this.$store.dispatch('reqEnterprise')
   },
   watch: {
     currentPorduct: function (value) {

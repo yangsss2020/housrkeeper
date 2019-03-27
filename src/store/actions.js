@@ -7,7 +7,13 @@ import {
   RECEIVE_ENTERPRISE,
   RECEIVE_PRODUCT,
   RECEIVE_USERINFO,
-  RET_USERINFO
+  RET_USERINFO,
+  RECEIVE_SHOPCART,
+  INCREMENT_SHOP_COUNT,
+  DECREMENT_SHOP_COUNT,
+  CLEAR_SHOPCART,
+  RECEIVE_ADDRESS,
+  RECEIVE_ORDER
 } from './mutations-type'
 import {
   reqSwiper,
@@ -17,7 +23,11 @@ import {
   reqEnterprise,
   reqProduct,
   reqInfo,
-  reqLogout
+  reqLogout,
+  getShopcar,
+  setShopcar,
+  getaddress,
+  getorder
 } from '../api/index'
 
 export default {
@@ -74,6 +84,48 @@ export default {
     const result = await reqLogout()
     if (result.code === 0) {
       commit(RET_USERINFO)
+    }
+  },
+  async getShopcar ({ commit }) {
+    const result = await getShopcar()
+    if (result.code === 0) {
+      let shopcart = result.data
+      shopcart.forEach((item) => {
+        item.check = true
+        item.checkAll = true
+        item.allCheck = true
+      })
+      commit(RECEIVE_SHOPCART, { shopcart })
+    }
+  },
+  setShopCount ({ commit }, { isAdd, shopindex }) {
+    if (isAdd) {
+      commit(INCREMENT_SHOP_COUNT, { shopindex })
+    } else {
+      commit(DECREMENT_SHOP_COUNT, { shopindex })
+    }
+  },
+  async clearShopcart ({ commit, state }) {
+    commit(CLEAR_SHOPCART)
+  },
+  async getaddress ({ commit, state }) {
+    const username = await state.userinfo.name
+    const data = await getaddress(username)
+    if (data.code === 0) {
+      data.data.forEach(item => {
+        item.check = false
+      })
+      data.data[0].check = true
+      commit(RECEIVE_ADDRESS, { address: data.data })
+    }
+  },
+  async getorder ({ commit, state }) {
+    const userid = state.userinfo._id
+    const data = await getorder(userid)
+    if (data.code === 0) {
+      commit(RECEIVE_ORDER, { order: data.data })
+    } else {
+      commit(RECEIVE_ORDER, { order: [] })
     }
   }
 }

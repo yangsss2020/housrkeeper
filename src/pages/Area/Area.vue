@@ -10,7 +10,7 @@
           <div class="title product_title"></div>
           <span class="desc">这里全是三品一标产品</span>
         </div>
-        <div class="more">更多>></div>
+        <div class="more" @click="$router.push('/more')">更多>></div>
       </div>
       <div class="product">
         <ul class="list">
@@ -33,18 +33,18 @@
           <div class="title enterprise_title"></div>
           <span class="desc">优选当地最受欢迎的品牌</span>
         </div>
-        <div class="more">更多>></div>
+        <div class="more" @click="$router.push('/more')">更多>></div>
       </div>
       <div class="enterprise">
         <ul class="enterprise_list">
-          <li class="list_item" v-for="(item,index) in enterprise" :key="index">
+          <router-link class="list_item" v-for="(item,index) in enterprise" :key="index" tag="li" :to="'/goods/a'+item.id">
             <div class="item_wrapper">
               <div class="head">
                 <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
               </div>
               <div class="item_name"><i class="iconfont">&#xe692;</i>{{item.title}}</div>
             </div>
-          </li>
+          </router-link>
         </ul>
       </div>
     </div>

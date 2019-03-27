@@ -7,7 +7,13 @@ import {
   RECEIVE_ENTERPRISE,
   RECEIVE_PRODUCT,
   RECEIVE_USERINFO,
-  RET_USERINFO
+  RET_USERINFO,
+  RECEIVE_SHOPCART,
+  INCREMENT_SHOP_COUNT,
+  DECREMENT_SHOP_COUNT,
+  CLEAR_SHOPCART,
+  RECEIVE_ADDRESS,
+  RECEIVE_ORDER
 } from './mutations-type'
 // import Vue from 'vue'
 
@@ -35,5 +41,30 @@ export default {
   },
   [RET_USERINFO] (state) {
     state.userinfo = {}
+    state.shopcart = []
+  },
+  [RECEIVE_SHOPCART] (state, { shopcart }) {
+    state.shopcart = shopcart
+  },
+  [INCREMENT_SHOP_COUNT] (state, { shopindex }) {
+    state.shopcart[shopindex].count += 1
+  },
+  [DECREMENT_SHOP_COUNT] (state, { shopindex }) {
+    if (state.shopcart[shopindex].count > 0) {
+      state.shopcart[shopindex].count--
+    }
+  },
+  [CLEAR_SHOPCART] (state) {
+    for (let i = state.shopcart.length - 1; i >= 0; i--) {
+      if (state.shopcart[i].check) {
+        state.shopcart.splice(i, 1)
+      }
+    }
+  },
+  [RECEIVE_ADDRESS] (state, { address }) {
+    state.address = address
+  },
+  [RECEIVE_ORDER] (state, { order }) {
+    state.order = order
   }
 }

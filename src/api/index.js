@@ -34,3 +34,25 @@ export const register = (name, nickname, pwd, tel) => ajax(BASE_URL + '/register
 export const reqInfo = () => ajax(BASE_URL + '/userinfo')
 //7.退出登录
 export const reqLogout = () => ajax(BASE_URL + '/logout')
+
+//购物车商品加入到session中
+export const setShopcar = (data) => ajax(BASE_URL + '/setshopcat', { data }, 'post')
+
+//8. 获取购物车列表
+export const getShopcar = () => ajax((BASE_URL + '/getshopcart'))
+//清空购物车
+export const clearshop = (data) => ajax(BASE_URL + '/clearshopcart', { data }, 'post')
+
+//通过username查询收货地址
+export const getaddress = (username) => ajax(BASE_URL + '/getaddress', { username })
+//设置收货地址
+export const setaddress = (data) => ajax(BASE_URL + '/setaddress', { data }, 'post')
+//更新收货地址
+export const upaddress = (data) => ajax(BASE_URL + '/upaddress', { data }, 'post')
+//根据用户id获取订单
+export const getorder = (userid) => ajax(BASE_URL + '/getorder', { userid })
+//添加订单
+export const setorder = (data) => ajax(BASE_URL + '/setorder', { data }, 'post')
+
+//删除订单
+export const delorder = (index) => ajax(BASE_URL + '/delorder', { index })

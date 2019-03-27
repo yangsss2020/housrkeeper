@@ -55,14 +55,17 @@ export default {
       if (!/^\w{2,20}$/.test(this.name)) {
         this.errContent = '请输入正确的用户名'
         this.showAlert()
+        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
         return false
       } else if (!this.pwd || !/^[a-zA-Z0-9]{6,10}$/.test(this.pwd)) {
         this.errContent = '请输入正确的密码'
         this.showAlert()
+        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
         return false
       } else if (!/^\w+$/.test(this.captcha)) {
         this.errContent = '请输入正确的验证码'
         this.showAlert()
+        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
         return false
       }
       //登录

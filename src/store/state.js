@@ -6,5 +6,8 @@ export default {
   recommend: [], //首页推荐
   area: [], //推荐专区
   enterprise: [], //企业产品列表
-  product: [] //产品列表
+  product: [], //产品列表
+  shopcart: [], //购物车列表
+  address: [],
+  order: []  //订单列表
 }

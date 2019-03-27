@@ -15,7 +15,7 @@
         <div class="item_title">更多</div>
       </li>
     </ul>
-    <div class="catefory_banner">
+    <div class="catefory_banner" @click="$router.push('/season')">
       <img src="../../../img/bnr@2x.png" alt="" class="img_content">
     </div>
   </div>

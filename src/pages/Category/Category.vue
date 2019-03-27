@@ -1,8 +1,12 @@
 <template>
   <div class="Category">
     <Topbar :title="$route.query.title" color="#007BF2"/>
-    <div class="content">
-      <img :src="BASE_URL+$route.query.imgUrl2x" alt="" class="img_content">
+    <div class="wrapper">
+      <cube-scroll>
+        <div class="content">
+          <img :src="BASE_URL+$route.query.imgUrl2x" alt="" class="img_content">
+        </div>
+      </cube-scroll>
     </div>
   </div>
 </template>
@@ -25,13 +29,22 @@ export default {
 .Category {
   width: 100%;
   padding-top: 43px;
-  .content {
-    width: 100%;
-    border: 1px dashed red;
-    .img_content {
+  .wrapper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 43px;
+    bottom: 0;
+    overflow: hidden;
+    .content {
       width: 100%;
-      height: auto;
+      /*border: 1px dashed red;*/
+      .img_content {
+        width: 100%;
+        height: auto;
+      }
     }
   }
+
 }
 </style>

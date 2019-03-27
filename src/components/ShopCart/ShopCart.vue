@@ -2,7 +2,7 @@
   <div class="ShopCart">
     <div class="shopcart_container">
       <div class="left">
-        <div class="item">
+        <div class="item" @click="$router.push('/home')">
           <i class="iconfont">&#xe626;</i>
           <p class="text">首页</p>
         </div>
@@ -54,6 +54,9 @@
 </template>
 
 <script>
+import { setShopcar } from '../../api/index'
+import { mapState } from 'vuex'
+
 export default {
   name: 'ShopCart',
   props: {
@@ -71,11 +74,13 @@ export default {
       flag: false, //条件渲染商品列表
       addCount: true, //增加商品数量
       count: 0, //存放商品数量
-      size: '' //存放商品的规格
+      size: '', //存放商品的规格
+      tipText: ''
     }
   },
   methods: {
-    toggleShowCart (flag) {
+    async toggleShowCart (flag) {
+      const { count, price, size } = this
       if (flag === this.isCar) {
         if (!this.showList) {
           this.showList = true
@@ -89,8 +94,20 @@ export default {
           this.showBuy = true
           this.isgogo = true
           this.size = ''
-          this.showToastType()
           //执行加入购物车ajax请求
+          if (this.userinfo) {
+            const { _id, title, describe, icomimg } = this.currentPorduct
+            let data = {
+              userid: this.userinfo._id, goodsid: _id, title, describe, icomimg, count, price, size
+            }
+            await setShopcar(data)
+            this.$store.dispatch('getShopcar')
+            this.tipText = '添加成功'
+            this.showToastType()
+          } else {
+            this.tipText = '您还没有登录哟'
+            this.showToastType()
+          }
         }
       } else {
         if (!this.showList) {
@@ -107,6 +124,18 @@ export default {
           this.isgogo = false
           this.size = ''
           //跳转到购买页面
+          console.log(1)
+          const { _id, title, describe, icomimg } = this.currentPorduct
+          let data = {
+            userid: this.userinfo._id, goodsid: _id, title, describe, icomimg, count, price, size
+          }
+          data = JSON.stringify(data)
+          this.$router.push({
+            name: 'subOrder',
+            params: {
+              data
+            }
+          })
         }
       }
     },
@@ -132,7 +161,7 @@ export default {
     },
     showToastType () {
       const toast = this.$createToast({
-        txt: '添加成功',
+        txt: this.tipText,
         type: 'correct'
       })
       toast.show()
@@ -146,6 +175,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['userinfo']),
     price () {
       const { currentPorduct, size } = this
       let price = 0
@@ -160,6 +190,9 @@ export default {
       }
       return price
     }
+  },
+  mounted () {
+    this.$store.dispatch('reqInfo')
   }
 }
 </script>

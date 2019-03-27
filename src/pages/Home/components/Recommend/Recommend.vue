@@ -7,84 +7,34 @@
       </div>
       <div class="recom">
         <ul class="recom_list">
-          <li class="list_item" v-for="item in recommend" :key="item._id">
+          <router-link class="list_item" v-for="item in enterprise" :key="item._id" tag="li" :to="'/goods/a'+item.id">
             <div class="item_wrapper">
               <div class="head">
-                <img :src="BASE_URL+item.imgUrl" alt="" class="img_content">
+                <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
               </div>
               <div class="item_name">{{item.title}}</div>
             </div>
-          </li>
+          </router-link>
         </ul>
       </div>
     </div>
     <div class="wrapper">
       <div class="header">
         <h3 class="title">地区特产专区</h3>
-        <div class="more">更多>></div>
+        <div class="more" @click="$router.push('/more')">更多>></div>
       </div>
       <div class="special">
         <ul class="special_list">
-          <li class="list_item">
+          <router-link class="list_item" v-for="(item,index) in product" :key="index" tag="li" :to="'/goods/'+item.id">
             <div class="head">
-              <img src="../../../img/01.png" alt="" class="img_content">
-              <div class="mark">琥珀茶油山茶籽油悠悠</div>
+              <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
+              <div class="mark">{{item.describe}}</div>
             </div>
             <div class="info">
               <span class="area">酉阳县</span>
-              <span class="price">￥468.00/1盒</span>
+              <span class="price">￥{{item.pricea}}/1{{item.unit}}</span>
             </div>
-          </li>
-          <li class="list_item">
-            <div class="head">
-              <img src="../../../img/01.png" alt="" class="img_content">
-              <div class="mark">琥珀茶油山茶籽油悠悠</div>
-            </div>
-            <div class="info">
-              <span class="area">酉阳县</span>
-              <span class="price">￥468.00/1盒</span>
-            </div>
-          </li>
-          <li class="list_item">
-            <div class="head">
-              <img src="../../../img/01.png" alt="" class="img_content">
-              <div class="mark">琥珀茶油山茶籽油悠悠</div>
-            </div>
-            <div class="info">
-              <span class="area">酉阳县</span>
-              <span class="price">￥468.00/1盒</span>
-            </div>
-          </li>
-          <li class="list_item">
-            <div class="head">
-              <img src="../../../img/01.png" alt="" class="img_content">
-              <div class="mark">琥珀茶油山茶籽油悠悠</div>
-            </div>
-            <div class="info">
-              <span class="area">酉阳县</span>
-              <span class="price">￥468.00/1盒</span>
-            </div>
-          </li>
-          <li class="list_item">
-            <div class="head">
-              <img src="../../../img/01.png" alt="" class="img_content">
-              <div class="mark">琥珀茶油山茶籽油悠悠</div>
-            </div>
-            <div class="info">
-              <span class="area">酉阳县</span>
-              <span class="price">￥468.00/1盒</span>
-            </div>
-          </li>
-          <li class="list_item">
-            <div class="head">
-              <img src="../../../img/01.png" alt="" class="img_content">
-              <div class="mark">琥珀茶油山茶籽油悠悠</div>
-            </div>
-            <div class="info">
-              <span class="area">酉阳县</span>
-              <span class="price">￥468.00/1盒</span>
-            </div>
-          </li>
+          </router-link>
         </ul>
       </div>
     </div>
@@ -102,10 +52,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(['recommend'])
+    ...mapState(['enterprise', 'product'])
   },
   mounted () {
-    this.$store.dispatch('reqRecommend')
+    // this.$store.dispatch('reqRecommend')
+    this.$store.dispatch('reqEnterprise')
+    this.$store.dispatch('reqProduct')
   }
 }
 </script>
