@@ -1,30 +1,22 @@
-# housekeeper-client
+# vue2.5 cubeui vuex vue-router 算是个电商项目吧
+## 在线演示地址 : 
+## 自己瞎鼓捣的,一大堆BUG..希望大家看到我的bug能够提出解决方法谢谢
+## 项目演示链接,服务只有1M,将就看吧,域名备案还没过,只有先上ip地址了
+[http://47.102.192.219/#/home]
+## bug
+- [] keepaivle后页面轮播失效
+- [] 惊zhe没返回
+- [] 购物车不能清空 
+- [] 未登录可以购物
+- [] 未登录可以加入购物车
+- [] 订单返回
+- [] 地区区域下面菜单导航栏颜色不变
+- [] 全部订单切换
+- [] 全部订单左右切换
+- [] 搜索列表无限加载,以及上拉刷新
+- [] 图片懒加载
+- [] 订单列表不能及时刷新
+- [X] swiper和lazyload同时使用时,第一张图片没法加载
+- [x] 路由切换动画不流畅
+- [X] 短信功能未修复
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-1.如果在config -> index.js 中的 build 代码中的 productionSourceMap的值设为false ，打包后文件体积可以减少百分之八十
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

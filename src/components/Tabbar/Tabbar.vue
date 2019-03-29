@@ -6,7 +6,7 @@
       </div>
       <h3 class="title">首页</h3>
     </router-link>
-    <router-link to="/other" class="bar" :class="{active:$route.path==='/other'}">
+    <router-link to="/other" class="bar" :class="{active:$route.path==='/other'||$route.path==='/area'}">
       <div class="icon">
         <i class="iconfont">&#xe604;</i>
       </div>

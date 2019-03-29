@@ -64,7 +64,7 @@ export default {
   },
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       showList: false, //是否显示购物车列表
       showBtn: true, //加入购物车是否可以点击
       showBuy: true, //购买是否可以点击
@@ -95,7 +95,7 @@ export default {
           this.isgogo = true
           this.size = ''
           //执行加入购物车ajax请求
-          if (this.userinfo) {
+          if (this.userinfo._id) {
             const { _id, title, describe, icomimg } = this.currentPorduct
             let data = {
               userid: this.userinfo._id, goodsid: _id, title, describe, icomimg, count, price, size
@@ -124,18 +124,22 @@ export default {
           this.isgogo = false
           this.size = ''
           //跳转到购买页面
-          console.log(1)
-          const { _id, title, describe, icomimg } = this.currentPorduct
-          let data = {
-            userid: this.userinfo._id, goodsid: _id, title, describe, icomimg, count, price, size
-          }
-          data = JSON.stringify(data)
-          this.$router.push({
-            name: 'subOrder',
-            params: {
-              data
+          if (this.userinfo._id) {
+            const { _id, title, describe, icomimg } = this.currentPorduct
+            let data = {
+              userid: this.userinfo._id, goodsid: _id, title, describe, icomimg, count, price, size
             }
-          })
+            data = JSON.stringify(data)
+            this.$router.push({
+              name: 'subOrder',
+              params: {
+                data
+              }
+            })
+          } else {
+            this.tipText = '您还没有登录哟'
+            this.showToastType()
+          }
         }
       }
     },

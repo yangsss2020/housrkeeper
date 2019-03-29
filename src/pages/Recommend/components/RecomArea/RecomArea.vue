@@ -1,6 +1,6 @@
 <template>
   <div class="RecomArea">
-    <div class="nav_bar_container" ref="wrapper">
+    <div class="nav_bar_container" ref="wrapper" v-if="area.length">
       <ul class="nav_bar_list">
         <li class="nav_bar_item" :class="{active:currentIndex===index}" v-for="(item,index) in area" :key="item.id"
             @click="handlScroll(index)"
@@ -14,13 +14,13 @@
         </li>
       </ul>
     </div>
-    <div class="area_panel">
+    <div class="area_panel" ref="area_panel">
       <div class="list_wrapper" ref="listUi">
         <ul class="area_item" v-for="item in area" :key="item.id" ref="panel">
           <li v-for="(food,index) in item.list" :key="index" class="item_list">
             <div class="area_wrapper">
               <div class="item_img">
-                <img :src="BASE_URL+food.imgUrl" class="img_content">
+                <img v-lazy="BASE_URL+food.imgUrl" class="img_content">
               </div>
               <p class="desc">{{food.title}}</p>
             </div>
@@ -39,7 +39,7 @@ export default {
   name: 'RecomArea',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       indexBar: 0,
       scrollY: 0,
       tops: [] // 存放列表坐标
@@ -55,12 +55,10 @@ export default {
         probeType: 2
       })
       this.scrollList.on('scroll', ({ x, y }) => {
-        console.log(this.currentIndex)
         this.scrollY = Math.abs(y)
         // this.scrollBar.scrollToElement(this.$refs.bar[this.currentIndex], 300)
       })
       this.scrollList.on('scrollEnd', ({ x, y }) => {
-        // console.log(y)
         this.scrollY = Math.abs(y)
         this.scrollBar.scrollToElement(this.$refs.bar[this.currentIndex], 300)
       })
@@ -83,8 +81,12 @@ export default {
     }
   },
   mounted () {
-    // console.log(this.area)
-    this.$store.dispatch('reqArea')
+    this.$store.dispatch('reqArea').then(() => {
+      this.$nextTick(() => {
+        this._initScroll()
+        this._initTop()
+      })
+    })
   },
   computed: {
     ...mapState(['area']),
@@ -94,15 +96,6 @@ export default {
         return scrollY >= top && scrollY < tops[index + 1]
       })
       return index
-    }
-  },
-  watch: {
-    area: function (value) {
-      // console.log(value)
-      this.$nextTick(() => {
-        this._initScroll()
-        this._initTop()
-      })
     }
   }
 }

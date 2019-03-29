@@ -50,13 +50,6 @@ export default {
       }, 1000)
       //发送验证码
       await reqSendcode(this.tel)
-      // console.log(result)
-      // if (result.code === 1) {
-      //   this.errContent = result.msg
-      //   this.showAlert()
-      //   clearInterval(this.timeId)
-      //   return false
-      // }
     },
     async login () {
       if (!this.rightPhone) {
@@ -69,8 +62,7 @@ export default {
         return false
       }
       //登陆
-      const result = await loginSms(this.phone, this.code)
-      console.log(result)
+      await loginSms(this.phone, this.code)
     },
     showAlert () {
       this.$createDialog({

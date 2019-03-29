@@ -2,7 +2,7 @@
   <div class="Area">
     <topbar :title="$route.query.name" color="#F83478"/>
     <div class="banner">
-      <img :src="BASE_URL+$route.query.imgBanner" alt="" class="img_content">
+      <img v-lazy="BASE_URL+$route.query.imgBanner" alt="" class="img_content_area_banner">
     </div>
     <div class="list_wrapper">
       <div class="headr">
@@ -16,7 +16,7 @@
         <ul class="list">
           <router-link class="list_item" v-for="(item,index) in product" :key="index" tag="li" :to="'/goods/'+item.id">
             <div class="head">
-              <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
+              <img v-lazy="BASE_URL+item.icomimg" alt="" class="img_content">
               <div class="mark">{{item.describe}}</div>
             </div>
             <div class="info">
@@ -40,7 +40,7 @@
           <router-link class="list_item" v-for="(item,index) in enterprise" :key="index" tag="li" :to="'/goods/a'+item.id">
             <div class="item_wrapper">
               <div class="head">
-                <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
+                <img v-lazy="BASE_URL+item.icomimg" alt="" class="img_content">
               </div>
               <div class="item_name"><i class="iconfont">&#xe692;</i>{{item.title}}</div>
             </div>
@@ -59,7 +59,7 @@ export default {
   name: 'Area',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/'
+      BASE_URL: 'http://47.102.192.219/'
     }
   },
   computed: {
@@ -84,8 +84,9 @@ export default {
       width: 100%;
       height: 0;
       padding-bottom: 180px;
+      overflow: hidden;
 
-      .img_content {
+      .img_content_area_banner {
         width: 100%;
         height: auto;
       }

@@ -18,7 +18,7 @@ export default {
   data () {
     return {
       title: '购物车',
-      BASE_URL: 'http://127.0.0.1:3000/'
+      BASE_URL: 'http://47.102.192.219/'
     }
   },
   components: { Topbar }

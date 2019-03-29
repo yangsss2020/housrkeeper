@@ -2,8 +2,8 @@
   <div class="Login" >
     <Loginbar color="#F83478" more="注册">
       <div slot="default" class="tab_bar">
-        <router-link tag="span" to="phonelogin" class="bar_item">手机登陆</router-link>
-        <router-link tag="span" to="accountlogin" class="bar_item">账号登陆</router-link>
+        <router-link tag="span" to="phonelogin" class="bar_item" replace>手机登陆</router-link>
+        <router-link tag="span" to="accountlogin" class="bar_item" replace>账号登陆</router-link>
       </div>
     </Loginbar>
     <transition :name="translateStyl">

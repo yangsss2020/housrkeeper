@@ -16,7 +16,7 @@ export default {
   name: 'PageRecommend',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       data: []
     }
   },

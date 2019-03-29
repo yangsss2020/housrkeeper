@@ -3,7 +3,7 @@
     <topbar title="管理收货地址" color="#F83478" class="border-bottom-1px"/>
     <div class="wrapper ">
       <cube-scroll>
-        <ul class="address_list" v-if="shouList">
+        <ul class="address_list" v-if="address.length">
           <li class="list_item border-bottom-1px " v-for="(item,index) in address" :key="index">
             <div class="head border-bottom-1px">
               <div class="info">
@@ -47,6 +47,7 @@
 <script>
 import Topbar from '../../components/Topbar/Topbar'
 import { mapState } from 'vuex'
+import { checkaddress } from '../../api/index'
 
 export default {
   name: 'Address',
@@ -65,15 +66,15 @@ export default {
     addAddress () {
       this.$router.push({ path: '/addaddress' })
     },
-    check (index) {
-      this.address.forEach(item => {
-        item.check = false
-      })
-      this.address[index].check = true
-      // console.log(this.address)
+    async check (index) {
+      const _id = this.address[index]._id
+      const result = await checkaddress(_id)
+      if (result.code === 0) {
+        this.$store.dispatch('getaddress')
+      }
     }
   },
-  mounted () {
+  activated () {
     this.$store.dispatch('reqInfo').then(() => {
       this.$store.dispatch('getaddress')
     })

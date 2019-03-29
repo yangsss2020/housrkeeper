@@ -25,7 +25,7 @@ import {
   reqInfo,
   reqLogout,
   getShopcar,
-  setShopcar,
+  // setShopcar,
   getaddress,
   getorder
 } from '../api/index'
@@ -105,17 +105,13 @@ export default {
       commit(DECREMENT_SHOP_COUNT, { shopindex })
     }
   },
-  async clearShopcart ({ commit, state }) {
+  async clearShopcart ({ commit }) {
     commit(CLEAR_SHOPCART)
   },
   async getaddress ({ commit, state }) {
     const username = await state.userinfo.name
     const data = await getaddress(username)
-    if (data.code === 0) {
-      data.data.forEach(item => {
-        item.check = false
-      })
-      data.data[0].check = true
+    if (data.data.length) {
       commit(RECEIVE_ADDRESS, { address: data.data })
     }
   },

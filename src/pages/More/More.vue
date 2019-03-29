@@ -4,20 +4,31 @@
       <div class="search" @click="$router.push('/search')">{{$route.query.keyword||'搜索'}}</div>
     </topbar>
     <div class="wrapper">
-      <cube-scroll>
-        <ul class="shop_list" v-if="!keyList.length">
+      <cube-scroll @pulling-down="onPullingDown" :options="options" ref="scroll" @pulling-up="onPullingUp">
+        <ul class="shop_list" v-if="enterprise.length && !keyList.length ">
           <router-link class="list_item" v-for="(item) in enterprise" :key="item._id" tag="li" :to="'/goods/a'+item.id">
             <div class="img">
-              <img :src="BASE_URL+item.bannerlist[0]" alt="" class="img_content">
+              <img v-lazy="BASE_URL+item.bannerlist[0]" alt="" class="img_content">
             </div>
             <div class="content">
               <div class="title">{{item.describe}}</div>
               <div class="price">￥{{item.pricea}}</div>
             </div>
           </router-link>
-          <router-link class="list_item" v-for="(item) in product" :key="item._id" tag="li" :to="'/goods/'+item.id">
+          <router-link class="list_item" v-for="(item,index) in list" :key="index" tag="li" :to="'/goods/'+item.id">
             <div class="img">
-              <img :src="BASE_URL+item.bannerlist[0]" alt="" class="img_content">
+              <img v-lazy="BASE_URL+item.bannerlist[0]" alt="" class="img_content">
+            </div>
+            <div class="content">
+              <div class="title">{{item.describe}}</div>
+              <div class="price">￥{{item.pricea}}</div>
+            </div>
+          </router-link>
+        </ul>
+        <ul class="shop_list" v-else-if="keyList.length">
+          <router-link class="list_item" v-for="(item) in keyList" :key="item._id" tag="li" :to="'/goods/'+item.id">
+            <div class="img">
+              <img v-lazy="BASE_URL+item.bannerlist[0]" alt="" class="img_content">
             </div>
             <div class="content">
               <div class="title">{{item.describe}}</div>
@@ -26,15 +37,9 @@
           </router-link>
         </ul>
         <ul class="shop_list" v-else>
-          <router-link class="list_item" v-for="(item) in keyList" :key="item._id" tag="li" :to="'/goods/'+item.id">
-            <div class="img">
-              <img :src="BASE_URL+item.bannerlist[0]" alt="" class="img_content">
-            </div>
-            <div class="content">
-              <div class="title">{{item.describe}}</div>
-              <div class="price">￥{{item.pricea}}</div>
-            </div>
-          </router-link>
+          <li v-for="count in 10" :key="count">
+            <img src="../../common/images/shop_back.svg" alt="">
+          </li>
         </ul>
       </cube-scroll>
     </div>
@@ -49,7 +54,51 @@ export default {
   name: 'More',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/'
+      BASE_URL: 'http://47.102.192.219/',
+      // items: _foods,
+      pullDownRefresh: {
+        txt: '刷新成功'
+      },
+      pullUpLoad: {
+        txt: {
+          more: '下拉',
+          noMore: '没有更多了'
+        }
+      },
+      list: []
+    }
+  },
+  methods: {
+    onPullingDown () {
+      // 模拟更新数据
+      setTimeout(() => {
+        if (Math.random() > 0.5) {
+          // 如果有新数据
+          // this.items.unshift(_foods[1])
+          this.$refs.scroll.forceUpdate()
+        } else {
+          // 如果没有新数据
+          this.$refs.scroll.forceUpdate()
+        }
+      }, 1000)
+    },
+    onPullingUp () {
+      // 模拟更新数据
+      setTimeout(() => {
+        if (this.list.length < 30) {
+          // 如果有新数据
+          this.list = this.list.concat(this.product)
+          this.$refs.scroll.forceUpdate()
+        } else {
+          // 如果没有新数据
+          this.$refs.scroll.forceUpdate()
+        }
+      }, 1000)
+    }
+  },
+  watch: {
+    product: function (value) {
+      this.list = value
     }
   },
   computed: {
@@ -64,12 +113,22 @@ export default {
         })
       }
       return list
+    },
+    options () {
+      return {
+        pullDownRefresh: this.pullDownRefresh,
+        pullUpLoad: this.pullUpLoad,
+        scrollbar: true
+      }
     }
   },
   mounted () {
     // this.$store.dispatch('reqRecommend')
     this.$store.dispatch('reqEnterprise')
     this.$store.dispatch('reqProduct')
+  },
+  activated () {
+    this.$refs.scroll.forceUpdate()
   },
   components: { Topbar }
 }

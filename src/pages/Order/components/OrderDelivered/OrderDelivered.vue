@@ -186,11 +186,6 @@ export default {
     }
 
     .no_address {
-      position: fixed;
-      top: 78px;
-      bottom: 48px;
-      left: 0;
-      right: 0;
       height: 500px;
       background-color: #eee;
       display: flex;

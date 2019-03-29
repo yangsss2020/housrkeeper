@@ -2,14 +2,14 @@
   <div class="Order">
     <loginbar title="我的订单" color="#F83478"/>
     <div class="nav_bar">
-      <router-link to="/order/orderall">全部</router-link>
-      <router-link to="/order/orderpay">待付款</router-link>
-      <router-link to="/order/orderdelivered">待发货</router-link>
-      <router-link to="/order/orderpending">待收货</router-link>
+      <router-link to="/order/orderall" replace>全部</router-link>
+      <router-link to="/order/orderpay" replace>待付款</router-link>
+      <router-link to="/order/orderdelivered" replace>待发货</router-link>
+      <router-link to="/order/orderpending" replace>待收货</router-link>
     </div>
     <div class="wrapper">
       <cube-scroll>
-        <transition name="move" mode="out-in">
+        <transition :name="transitionName" >
           <keep-alive>
             <router-view/>
           </keep-alive>
@@ -25,10 +25,25 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'Order',
+  data () {
+    return {
+      transitionName: ''
+    }
+  },
   computed: {
     ...mapState(['order'])
   },
-  components: { Loginbar }
+  components: { Loginbar },
+  watch: {
+    $route (from, to) {
+      if (!from.meta.index && !to.meta.index) return false
+      if (from.meta.index > to.meta.index) {
+        this.transitionName = 'slide-right'
+      } else {
+        this.transitionName = 'slide-left'
+      }
+    }
+  }
 }
 </script>
 
@@ -56,16 +71,52 @@ export default {
       overflow: hidden;
       background-color: #eee;
 
-      .move-enter {
+/*      .move_left-enter {
         transform: translate(-100%);
       }
 
-      .move-leave-to {
+      .move_left-leave-to {
         transform: translate(100%);
       }
 
-      .move-enter-active, .move-leave-active {
+      .move_right-enter {
+        transform: translate(100%);
+      }
+
+      .move_right-leave-to {
+        transform: translate(-100%);
+      }
+
+      .move_left-enter-active, .move_left-leave-active, .move_right-enter-active, .move_right-leave-active {
         transition: all .3s;
+      }*/
+
+      .slide-right-enter-active,
+      .slide-right-leave-active,
+      .slide-left-enter-active,
+      .slide-left-leave-active {
+        transition: transform 300ms;
+        position: absolute;
+      }
+
+      .slide-right-enter {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0);
+      }
+
+      .slide-right-leave-active {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+      }
+
+      .slide-left-enter {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0);
+      }
+
+      .slide-left-leave-active {
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0);
       }
     }
   }

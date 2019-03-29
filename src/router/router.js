@@ -38,8 +38,7 @@ export default new Router({
       path: '/home',
       name: 'home',
       meta: {
-        showTabbar: true,
-        keepAlive: true
+        showTabbar: true
       },
       component: Home
     },
@@ -176,22 +175,34 @@ export default new Router({
         {
           path: 'orderall',
           name: 'OrderAll',
-          component: OrderAll
+          component: OrderAll,
+          meta: {
+            index: 1
+          }
         },
         {
           path: 'orderdelivered',
           name: 'OrderDelivered',
-          component: OrderDelivered
+          component: OrderDelivered,
+          meta: {
+            index: 3
+          }
         },
         {
           path: 'orderpay',
           name: 'OrderPay',
-          component: OrderPay
+          component: OrderPay,
+          meta: {
+            index: 2
+          }
         },
         {
           path: 'orderpending',
           name: 'OrderPending',
-          component: OrderPending
+          component: OrderPending,
+          meta: {
+            index: 4
+          }
         }
       ]
     },

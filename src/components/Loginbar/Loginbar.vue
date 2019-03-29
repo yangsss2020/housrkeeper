@@ -1,6 +1,6 @@
 <template>
   <div class="Loginbar" :style="{color: color}">
-    <i class="iconfont back" @click="$router.replace('/home')">&#xe606;</i>
+    <i class="iconfont back" @click="$router.back()">&#xe606;</i>
     <h2 class="title" v-if="title">{{title}}</h2>
     <span @click="$router.push('/register')" class="right">{{more}}</span>
     <slot name="default"></slot>

@@ -18,7 +18,6 @@ export default {
         newAyy.push(item)
       }
     })
-    // console.log(shopcart)
     return newAyy.reduce((preToatl, shop) => preToatl + shop.count, 0)
   },
   totalPrice (state) {

@@ -105,7 +105,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.userinfo)
     if (this.userinfo) {
       this.$store.dispatch('getorder')
     }

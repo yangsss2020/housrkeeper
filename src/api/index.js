@@ -21,7 +21,7 @@ export const reqEnterprise = () => ajax(BASE_URL + '/enterprise')
 export const reqProduct = () => ajax(BASE_URL + '/product')
 
 //1. 获取一次性图形验证
-export const reqCaptcha = () => ajax(BASE_URL + '/captcha')
+// export const reqCaptcha = () => ajax(BASE_URL + '/captcha')
 //2.用户名密码登陆
 export const loginPwd = (name, pwd, captcha) => ajax(BASE_URL + '/login_pwd', { name, pwd, captcha }, 'post')
 //3.获取手机短信
@@ -49,6 +49,9 @@ export const getaddress = (username) => ajax(BASE_URL + '/getaddress', { usernam
 export const setaddress = (data) => ajax(BASE_URL + '/setaddress', { data }, 'post')
 //更新收货地址
 export const upaddress = (data) => ajax(BASE_URL + '/upaddress', { data }, 'post')
+
+//选择默认收货地址
+export const checkaddress = (index) => ajax(BASE_URL + '/checkaddress', { index }, '[post]')
 //根据用户id获取订单
 export const getorder = (userid) => ajax(BASE_URL + '/getorder', { userid })
 //添加订单

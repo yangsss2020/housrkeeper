@@ -9,5 +9,5 @@ export default {
   product: [], //产品列表
   shopcart: [], //购物车列表
   address: [],
-  order: []  //订单列表
+  order: [] //订单列表
 }

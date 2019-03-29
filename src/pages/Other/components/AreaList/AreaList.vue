@@ -28,7 +28,7 @@
                      :to="{path:'/area',query:items}">
           <div class="item_wrapper">
             <div class="head">
-              <img :src="BASE_URL+items.imgUrl" alt="" class="img_content">
+              <img v-lazy="BASE_URL+items.imgUrl" alt="" class="img_content">
             </div>
             <div class="item_name"><i class="iconfont">&#xe61b;</i>{{items.name}}</div>
           </div>
@@ -47,7 +47,7 @@ export default {
   name: 'AreaList',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       move: false,
       activeIndex: 0,
       tops: [] //存放所有top值

@@ -15,6 +15,7 @@
 
 <script>
 import { setorder } from '../../api/index'
+import { mapState } from 'vuex'
 
 export default {
   name: 'OrderSub',
@@ -29,23 +30,39 @@ export default {
     }
   },
   methods: {
+    showAlert () {
+      this.$createDialog({
+        type: 'alert',
+        title: '错误!',
+        content: '请添加收货地址',
+        icon: 'cubeic-alert'
+      }).show()
+    },
     async subOrder () {
-      this.showMark = true
-      let code = 0
-      this.goods.forEach(async item => {
-        const result = await setorder(item)
-        if (result.code !== 0) {
-          code = result.code
-          return false
-        }
-      })
-      this.timeId = setTimeout(() => {
-        this.showMark = false
-        if (code === 0) {
-          this.$router.push('/order/orderpay')
-        }
-      }, 1000)
+      if (this.address.length) {
+        this.showMark = true
+        let code = 0
+        this.goods.forEach(async item => {
+          const result = await setorder(item)
+          if (result.code !== 0) {
+            code = result.code
+            return false
+          }
+        })
+        this.timeId = setTimeout(() => {
+          this.showMark = false
+          if (code === 0) {
+            this.$router.replace('/order/orderpay')
+            clearTimeout(this.timeId)
+          }
+        }, 1000)
+      } else {
+        this.showAlert()
+      }
     }
+  },
+  computed: {
+    ...mapState(['address'])
   }
 }
 </script>

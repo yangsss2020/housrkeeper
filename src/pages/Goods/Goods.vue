@@ -67,7 +67,7 @@ export default {
   components: { ShopCart, Topbar },
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       notNextTick: true,
       swiperOption: {
         // swiper options 所有的配置同swiper官方api配置

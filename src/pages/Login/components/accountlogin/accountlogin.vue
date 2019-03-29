@@ -11,7 +11,7 @@
         <cube-input v-model="captcha" placeholder="请输入验证码" type="text"></cube-input>
         <div class="verification_code">
           <img
-            src="http://127.0.0.1:3000/api/captcha"
+            src="http://47.102.192.219/api/captcha"
             alt=""
             class="code_img"
             ref="getCaptcha"
@@ -27,14 +27,14 @@
 </template>
 
 <script>
-import { loginPwd, reqCaptcha } from '../../../../api/index'
+import { loginPwd } from '../../../../api/index'
 
 export default {
   name: 'accountlogin',
   data () {
     return {
       autofocus: true,
-      imgCaptcha: 'http://127.0.0.1:3000/api/captcha',
+      imgCaptcha: 'http://47.102.192.219/api/captcha',
       name: '', //用户名
       pwd: '', //用户秘密
       captcha: '', //验证码
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     async getCaptcha (e) {
-      e.target.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
+      e.target.src = 'http://47.102.192.219/api/captcha/?id=' + Date.now()
       // const result = await reqCaptcha()
       // this.imgCaptcha = result
     },
@@ -55,24 +55,24 @@ export default {
       if (!/^\w{2,20}$/.test(this.name)) {
         this.errContent = '请输入正确的用户名'
         this.showAlert()
-        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
+        this.$refs.getCaptcha.src = 'http://47.102.192.219/api/captcha/?id=' + Date.now()
         return false
       } else if (!this.pwd || !/^[a-zA-Z0-9]{6,10}$/.test(this.pwd)) {
         this.errContent = '请输入正确的密码'
         this.showAlert()
-        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
+        this.$refs.getCaptcha.src = 'http://47.102.192.219/api/captcha/?id=' + Date.now()
         return false
       } else if (!/^\w+$/.test(this.captcha)) {
         this.errContent = '请输入正确的验证码'
         this.showAlert()
-        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
+        this.$refs.getCaptcha.src = 'http://47.102.192.219/api/captcha/?id=' + Date.now()
         return false
       }
       //登录
       const result = await loginPwd(this.name, this.pwd, this.captcha)
       if (result.code === 1) {
         this.errContent = result.msg
-        this.$refs.getCaptcha.src = 'http://127.0.0.1:3000/api/captcha/?id=' + Date.now()
+        this.$refs.getCaptcha.src = 'http://47.102.192.219/api/captcha/?id=' + Date.now()
         this.showAlert()
         return false
       } else {

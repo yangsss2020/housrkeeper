@@ -10,7 +10,7 @@
           <router-link class="list_item" v-for="item in enterprise" :key="item._id" tag="li" :to="'/goods/a'+item.id">
             <div class="item_wrapper">
               <div class="head">
-                <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
+                <img v-lazy="BASE_URL+item.icomimg" alt="" class="img_content">
               </div>
               <div class="item_name">{{item.title}}</div>
             </div>
@@ -27,7 +27,7 @@
         <ul class="special_list">
           <router-link class="list_item" v-for="(item,index) in product" :key="index" tag="li" :to="'/goods/'+item.id">
             <div class="head">
-              <img :src="BASE_URL+item.icomimg" alt="" class="img_content">
+              <img v-lazy="BASE_URL+item.icomimg" alt="" class="img_content">
               <div class="mark">{{item.describe}}</div>
             </div>
             <div class="info">
@@ -48,7 +48,7 @@ export default {
   name: 'Recommend',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/'
+      BASE_URL: 'http://47.102.192.219/'
     }
   },
   computed: {
@@ -56,8 +56,12 @@ export default {
   },
   mounted () {
     // this.$store.dispatch('reqRecommend')
-    this.$store.dispatch('reqEnterprise')
-    this.$store.dispatch('reqProduct')
+    if (!this.enterprise.length) {
+      this.$store.dispatch('reqEnterprise')
+    }
+    if (!this.product.length) {
+      this.$store.dispatch('reqProduct')
+    }
   }
 }
 </script>

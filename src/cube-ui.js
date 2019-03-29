@@ -44,7 +44,7 @@ import {
   // IndexList,
   // Swipe,
   // Sticky,
-  ScrollNav,
+  ScrollNav
   // ScrollNavBar
 } from 'cube-ui'
 

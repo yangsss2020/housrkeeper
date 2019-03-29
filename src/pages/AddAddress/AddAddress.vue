@@ -1,5 +1,5 @@
 <template>
-  <div class="EditAddress">
+  <div class="addAddress">
     <topbar title="新增地址" color="#F83478" class="border-bottom-1px">
       <div class="edit_shop" @click="subAddress">保存</div>
     </topbar>
@@ -21,7 +21,7 @@ import { mapState } from 'vuex'
 import { setaddress } from '../../api/index'
 
 export default {
-  name: 'EditAddress',
+  name: 'addAddress',
   components: { Topbar },
   data () {
     return {
@@ -105,7 +105,8 @@ export default {
   methods: {
     async subAddress () {
       const { name, tel, area, address, code } = this.model
-      const data = { username: this.userinfo.name, name, tel, area, address, code }
+      let check = false
+      const data = { username: this.userinfo.name, name, tel, area, address, code, check }
       const result = await setaddress({ data })
       if (result.code === 0) {
         this.$router.back()
@@ -115,7 +116,7 @@ export default {
 }
 </script>
 <style lang="scss">
-  .EditAddress {
+  .addAddress {
     .cube-form-item_required {
       .cube-form-label::before {
         display: none;
@@ -128,7 +129,7 @@ export default {
   }
 </style>
 <style scoped lang="scss">
-  .EditAddress {
+  .addAddress {
     padding-top: 43px;
 
     .edit_shop {

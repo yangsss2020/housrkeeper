@@ -26,7 +26,7 @@
           <span>合计：<i class="price">￥{{item.price*item.count}}</i></span>
         </div>
         <ul class="btn_list">
-          <li class="list_item" @click="del(index)">取消订单</li>
+          <li class="list_item" @click="showBtn(index)">取消订单</li>
           <li class=" list_item
           ">朋友代付
           </li>
@@ -44,53 +44,80 @@
 <script>
 import { mapState } from 'vuex'
 import { delorder } from '../../../../api/index'
+// import subOrder from '@/pages/subOrder/subOrder'
 
 export default {
   name: 'OrderPay',
   data () {
     return {
       showList: true,
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       content: '',
       flag: true,
-      list: []
+      list: [],
+      lastrouter: ''
     }
   },
   methods: {
     pay (index) {
       const price = this.order[index].price * this.order[index].count
-      console.log(price)
-      this.content = '您可以把' + price + '元打到支付宝13101060040,我们会及时给您安排发货!!!'
+      this.content = '哈哈' + price
       this.showAlert()
     },
     showAlert () {
       this.$createDialog({
         type: 'alert',
-        title: '抱歉,本商城还没开通支付通道',
+        title: '抱歉,本商城只供测试还没开通支付通道',
         content: this.content,
         icon: 'cubeic-alert'
       }).show()
     },
-    async del (index) {
-      if (this.flag) {
-        console.log(index)
-        this.flag = false
-        await delorder(index)
-        await this.$store.dispatch('getorder')
-        console.log(this.order)
-        // if (result.code === 0) {
-        //
-        // }
-        this.timer = setTimeout(() => {
-          this.flag = true
-        }, 100)
-      }
+    showBtn (index) {
+      this.$createDialog({
+        type: 'confirm',
+        icon: 'cubeic-alert',
+        title: '删除订单!!!',
+        content: '您确定要删除此订单吗?',
+        confirmBtn: {
+          text: '确定',
+          active: true,
+          disabled: false,
+          href: 'javascript:;'
+        },
+        cancelBtn: {
+          text: '取消',
+          active: false,
+          disabled: false,
+          href: 'javascript:;'
+        },
+        onConfirm: async () => {
+          await delorder(index)
+          await this.$store.dispatch('getorder')
+          this.$createToast({
+            type: 'warn',
+            time: 1000,
+            txt: '取消订单成功'
+          }).show()
+        },
+        onCancel: () => {
+          this.$createToast({
+            type: 'warn',
+            time: 1000,
+            txt: '取消'
+          }).show()
+        }
+      }).show()
     }
   },
   computed: {
     ...mapState(['order'])
   },
-  mounted () {
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.lastrouter = from.name
+    })
+  },
+  activated () {
     if (!this.order.length) {
       this.$store.dispatch('getorder')
     }
@@ -98,10 +125,13 @@ export default {
   watch: {
     order (val) {
       this.list = val
-      // this.$store.dispatch('getorder')
+    },
+    lastrouter: function (value) {
+      if (value === 'subOrder') {
+        this.$store.dispatch('getorder')
+      }
     }
   }
-
 }
 </script>
 
@@ -212,11 +242,6 @@ export default {
     }
 
     .no_address {
-      position: fixed;
-      top: 78px;
-      bottom: 48px;
-      left: 0;
-      right: 0;
       height: 500px;
       background-color: #eee;
       display: flex;

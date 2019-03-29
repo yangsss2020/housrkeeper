@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <!--<keep-alive :include="test">-->
-      <!--<router-view/>-->
+    <!--<router-view/>-->
     <!--</keep-alive>-->
-    <keep-alive>
+    <keep-alive exclude="addAddress">
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
     <router-view v-if="!$route.meta.keepAlive"></router-view>
@@ -17,7 +17,6 @@
   }
 </style>
 <script>
-// import {map} from 'vuex'
 import Tabbar from './components/Tabbar/Tabbar'
 
 export default {

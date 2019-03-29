@@ -1,6 +1,6 @@
 <template>
   <div class="Category">
-    <ul class="category_list">
+    <ul class="category_list" v-if="categorys.length">
       <router-link :to="{path:'/category',query:items}" tag="li" class="list_item" v-for="items in categorys"
                    :key="items.id">
         <div class="item_img">
@@ -13,6 +13,11 @@
           <img src="./images/jxd@2x(1).png" alt="" class="img_content">
         </div>
         <div class="item_title">更多</div>
+      </li>
+    </ul>
+    <ul class="category_list" v-else>
+      <li>
+        <img src="../../../../common/images/msite_back.svg" alt="">
       </li>
     </ul>
     <div class="catefory_banner" @click="$router.push('/season')">
@@ -28,7 +33,7 @@ export default {
   name: 'Category',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/'
+      BASE_URL: 'http://47.102.192.219/'
     }
   },
   computed: {
@@ -50,7 +55,9 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('reqCategory')
+    if (!this.category.length) {
+      this.$store.dispatch('reqCategory')
+    }
   }
 }
 </script>

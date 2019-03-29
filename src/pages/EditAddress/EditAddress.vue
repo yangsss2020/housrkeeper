@@ -106,7 +106,7 @@ export default {
       return this.address[this.$route.query.index]
     }
   },
-  mounted () {
+  activated () {
     const address = this.nowAddress
     this.model.name = address.name
     this.model.tel = address.tel

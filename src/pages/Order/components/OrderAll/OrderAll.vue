@@ -1,6 +1,6 @@
 <template>
   <div class="OrderAll">
-    <ul  class="order_list border-bottom-1px" v-if="order.length">
+    <ul class="order_list border-bottom-1px" v-if="order.length">
       <li class="lsit_item" v-for="(item,index) in order" :key="index">
         <div class="head">
           <div class="left">
@@ -26,9 +26,9 @@
           <span>合计：<i class="price">￥{{item.price*item.count}}</i></span>
         </div>
         <ul class="btn_list">
-          <li class="list_item" @click="del(index)">取消订单</li>
+          <li class="list_item" @click="showBtn(index)">取消订单</li>
           <li class="list_item">朋友代付</li>
-          <li class="list_item on">付款</li>
+          <li class="list_item on" @click="pay(index)">付款</li>
         </ul>
       </li>
     </ul>
@@ -48,23 +48,59 @@ export default {
   data () {
     return {
       showList: true,
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       flag: true
     }
   },
   methods: {
-    async del (index) {
-      if (this.flag) {
-        console.log(1)
-        this.flag = false
-        const result = await delorder(index)
-        if (result.code === 0) {
-          this.$store.dispatch('getorder')
+    showBtn (index) {
+      this.$createDialog({
+        type: 'confirm',
+        icon: 'cubeic-alert',
+        title: '删除订单!!!',
+        content: '您确定要删除此订单吗?',
+        confirmBtn: {
+          text: '确定',
+          active: true,
+          disabled: false,
+          href: 'javascript:;'
+        },
+        cancelBtn: {
+          text: '取消',
+          active: false,
+          disabled: false,
+          href: 'javascript:;'
+        },
+        onConfirm: async () => {
+          await delorder(index)
+          await this.$store.dispatch('getorder')
+          this.$createToast({
+            type: 'warn',
+            time: 1000,
+            txt: '取消订单成功'
+          }).show()
+        },
+        onCancel: () => {
+          this.$createToast({
+            type: 'warn',
+            time: 1000,
+            txt: '取消'
+          }).show()
         }
-        this.timer = setTimeout(() => {
-          this.flag = true
-        }, 100)
-      }
+      }).show()
+    },
+    pay (index) {
+      const price = this.order[index].price * this.order[index].count
+      this.content = '哈哈' + price
+      this.showAlert()
+    },
+    showAlert () {
+      this.$createDialog({
+        type: 'alert',
+        title: '抱歉,本商城只供测试还没开通支付通道',
+        content: this.content,
+        icon: 'cubeic-alert'
+      }).show()
     }
   },
   computed: {
@@ -184,11 +220,6 @@ export default {
     }
 
     .no_address {
-      position: fixed;
-      top: 78px;
-      bottom: 48px;
-      left: 0;
-      right: 0;
       height: 500px;
       background-color: #eee;
       display: flex;

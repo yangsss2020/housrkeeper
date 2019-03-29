@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="buy" @click="accountHandle">
-        <span v-if="isEdit" @click="pay">结算({{totalCount}})</span>
+        <span v-if="isEdit">结算({{totalCount}})</span>
         <span v-else>删除</span>
       </div>
     </div>
@@ -85,7 +85,7 @@ export default {
   name: 'Shop',
   data () {
     return {
-      BASE_URL: 'http://127.0.0.1:3000/',
+      BASE_URL: 'http://47.102.192.219/',
       isAdd: true,
       edit: '管理',
       isEdit: true
@@ -108,11 +108,7 @@ export default {
     },
     changCount (isAdd, index) {
       this.$store.dispatch('setShopCount', { isAdd, shopindex: index })
-      if (this.shopcart[index].count === 0) {
-        this.shopcart[index].check = false
-      } else {
-        this.shopcart[index].check = true
-      }
+      this.shopcart[index].check = this.shopcart[index].count !== 0
     },
     test () {
       this.isEdit = !this.isEdit
@@ -122,39 +118,35 @@ export default {
         this.edit = '完成'
       }
     },
-    pay () {
-      let arr = []
-      let items = {}
-      let data
-      this.shopcart.forEach(item => {
-        items.count = item.count
-        items.describe = item.describe
-        items.goodsid = item.goodsid
-        items.icomimg = item.icomimg
-        items.price = item.price
-        items.size = item.size
-        items.title = item.title
-        items.userid = this.userinfo._id
-        arr.push(items)
-        items = {}
-      })
-      data = JSON.stringify(arr)
-      this.$store.dispatch('clearShopcart')
-      this.$router.push({
-        name: 'subOrder',
-        params: {
-          data
-        }
-      })
-    },
     async accountHandle () {
       if (this.isEdit) {
-        // console.log(1)
-      } else {
-        console.log(1)
+        let arr = []
+        let items = {}
+        let data
+        this.shopcart.forEach(item => {
+          items.count = item.count
+          items.describe = item.describe
+          items.goodsid = item.goodsid
+          items.icomimg = item.icomimg
+          items.price = item.price
+          items.size = item.size
+          items.title = item.title
+          items.userid = this.userinfo._id
+          arr.push(items)
+          items = {}
+        })
+        data = JSON.stringify(arr)
         this.$store.dispatch('clearShopcart')
         await clearshop(this.shopcart)
-        // console.log(result)
+        this.$router.push({
+          name: 'subOrder',
+          params: {
+            data
+          }
+        })
+      } else {
+        this.$store.dispatch('clearShopcart')
+        await clearshop(this.shopcart)
       }
     }
   },
@@ -189,10 +181,14 @@ export default {
   }
 
   .Shop {
-    padding-top: 43px;
+    /*padding-top: 43px;*/
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 
     .shop_wrapper {
       position: fixed;
+      position: absolute;
       top: 43px;
       bottom: 88px;
       left: 0;
