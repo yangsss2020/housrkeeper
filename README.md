@@ -1,6 +1,6 @@
 # vue2.5 cubeui vuex vue-router 算是个电商项目吧
 ## 自己瞎鼓捣的,一大堆BUG..希望大家看到我的bug能够提出解决方法谢谢
-## 项目演示链接,服务只有1M,将就看吧,域名备案还没过,只有先上ip地址了[http://47.102.192.219/#/home]
+## 项目演示链接,服务只有1M,将就看吧,http://www.yangsss.xyz/#/home
 
 
 ## 后端项目地址 [https://github.com/ErrorYs/housekeep-server]
